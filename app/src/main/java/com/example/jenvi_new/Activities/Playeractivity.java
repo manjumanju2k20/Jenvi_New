@@ -1,0 +1,155 @@
+package com.example.jenvi_new.Activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.jenvi_new.R;
+import com.example.jenvi_new.singleton.SongsList_singleton;
+import com.example.jenvi_new.singleton.song_singleton;
+
+import static com.example.jenvi_new.Applications.App.ALBUM_ARTIST_FLAG;
+import static com.example.jenvi_new.Applications.App.MAINACTIVITY_FLAG;
+import static com.example.jenvi_new.Applications.App.PlAYERACTIVITY_FLAG;
+
+public class Playeractivity extends AppCompatActivity {
+    private final song_singleton song = song_singleton.getInstance();
+
+    private final OnClickListener listener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (view == play) {
+                if (song.getIsPlaying()) {
+                    play.setImageResource(R.drawable.ic_play);
+                    song.pausesong();
+                } else {
+                    play.setImageResource(R.drawable.ic_pause);
+                    song.playsong();
+                }
+            } else if (view == back) {
+                onBackPressed();
+            } else if (view == next) {
+                song.next(getApplicationContext());
+            } else if (view == prev) {
+                song.prev(getApplicationContext());
+            }
+            else if(view == shuffle){
+                song.setIsshuffled(!song.Isshuffled());
+                seticons();
+            }
+            else if(view==repeat){
+                song.setIsrepeating(!song.Isrepeating());
+                seticons();
+            }
+        }
+    };
+
+
+
+    private void seticons() {
+        if(song.Isshuffled()){
+            shuffle.setImageResource(R.drawable.ic_shuffle_on);
+        }
+        else{
+            shuffle.setImageResource(R.drawable.ic_shuffle_off);
+        }
+
+        if(song.Isrepeating()){
+            repeat.setImageResource(R.drawable.ic_repeat_on);
+        }
+        else {
+            repeat.setImageResource(R.drawable.ic_repeat_off);
+        }
+    }
+    //endregion
+
+
+    //region Private Variables
+    private ImageButton back;
+    private ImageButton play;
+    private ImageButton prev;
+    private ImageButton next;
+    private ImageButton shuffle;
+    private ImageButton repeat;
+    private TextView songName;
+    private int intenetval;
+    //endregion
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_playeractivity);
+        song.setFlag(PlAYERACTIVITY_FLAG);
+        try{
+            intenetval=getIntent().getIntExtra("extra",0);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        setMappings();
+
+        song.handler = new Handler();
+        song.seek_Bar();
+
+        //region Listeners
+        play.setOnClickListener(listener);
+        back.setOnClickListener(listener);
+        next.setOnClickListener(listener);
+        prev.setOnClickListener(listener);
+        shuffle.setOnClickListener(listener);
+        repeat.setOnClickListener(listener);
+        //endregion
+
+        seticons();
+
+        song.showdata();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(intenetval == 0) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else if(intenetval == 2){
+            song.setFlag(ALBUM_ARTIST_FLAG);
+            song.showdata();
+        }
+        else if(intenetval == 1){
+            song.setFlag(MAINACTIVITY_FLAG);
+            song.showdata();
+        }
+    }
+
+    private void setMappings() {
+        next = findViewById(R.id.next_player);
+        prev = findViewById(R.id.prev_player);
+        play = findViewById(R.id.play_player);
+        back = findViewById(R.id.back_player);
+        shuffle = findViewById(R.id.shuffle_player);
+        repeat = findViewById(R.id.repeat_player);
+
+        songName = findViewById(R.id.title_player);
+        songName.setSelected(true);
+        song.Player_album = findViewById(R.id.album_player);
+        song.played_duration = findViewById(R.id.playduration);
+        song.total_duration = findViewById(R.id.totalduration);
+
+        song.seekBar = findViewById(R.id.seekBar);
+
+        song.Player_Play = play;
+        song.Player_SongName = songName;
+        song.Player_albumart = findViewById(R.id.albumart_player);
+    }
+}
+
