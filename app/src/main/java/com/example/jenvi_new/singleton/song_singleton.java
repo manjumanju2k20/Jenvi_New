@@ -252,6 +252,7 @@ public class song_singleton extends AppCompatActivity {
         play(context,getshufflingval(shufflingindex),item,itemname);
     }
 
+
     private void generaterandonarray(int size) {
         shufflingarray.clear();
         for(int i=0;i<size;i++){
