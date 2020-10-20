@@ -10,7 +10,8 @@ import com.skydrop.jenvy.R;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private final int SPLASH_TIMEOUT = 3000;
+    //TODO: CHGE TO 3000
+    private final int SPLASH_TIMEOUT = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

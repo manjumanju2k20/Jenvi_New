@@ -55,9 +55,11 @@ public class Album_Artist extends AppCompatActivity {
                 song.play(getApplicationContext(), 0, item, itemname);
                 song.setIsshuffled(false);
             } else if (v == bottombar) {
-                Intent playeractivity = new Intent(getApplicationContext(), Playeractivity.class);
-                playeractivity.putExtra("extra", 2);
-                startActivity(playeractivity);
+                if(song.ismediaplayer()) {
+                    Intent playeractivity = new Intent(getApplicationContext(), Playeractivity.class);
+                    playeractivity.putExtra("extra", 2);
+                    startActivity(playeractivity);
+                }
             }
         }
     };

@@ -65,9 +65,11 @@ public class MainActivity extends AppCompatActivity {
                     song.playsong();
                 }
             } else if (v == bottombar) {
-                Intent playeractivity =new Intent(getApplicationContext(), Playeractivity.class);
-                playeractivity.putExtra("extra",1);
-                startActivity(playeractivity);
+                if(song.ismediaplayer()) {
+                    Intent playeractivity = new Intent(getApplicationContext(), Playeractivity.class);
+                    playeractivity.putExtra("extra", 1);
+                    startActivity(playeractivity);
+                }
             }
         }
     };

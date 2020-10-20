@@ -327,6 +327,10 @@ public class song_singleton extends AppCompatActivity {
         this.isrepeating = isrepeating;
     }
 
+    public boolean ismediaplayer() {
+        return mediaPlayer != null;
+    }
+
     //endregion
 }
 
