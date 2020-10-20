@@ -1,4 +1,4 @@
-package com.example.jenvi_new.Adapters;
+package com.skydrop.jenvy.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.jenvi_new.Interfaces.SongitemClickListener;
-import com.example.jenvi_new.R;
-import com.example.jenvi_new.models.SongModel;
-import com.example.jenvi_new.singleton.SongsList_singleton;
+import com.skydrop.jenvy.Interfaces.SongitemClickListener;
+import com.skydrop.jenvy.R;
+import com.skydrop.jenvy.models.SongModel;
+import com.skydrop.jenvy.singleton.SongsList_singleton;
 
 
 public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.MyViewHolder> {

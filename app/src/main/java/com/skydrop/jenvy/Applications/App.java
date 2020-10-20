@@ -1,4 +1,4 @@
-package com.example.jenvi_new.Applications;
+package com.skydrop.jenvy.Applications;
 
 import android.app.Application;
 import android.app.NotificationChannel;

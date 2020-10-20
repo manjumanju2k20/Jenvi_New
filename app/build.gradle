@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.jenvi_new"
+        applicationId "com.skydrop.jenvy"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

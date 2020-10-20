@@ -1,4 +1,4 @@
-package com.example.jenvi_new.Activities;
+package com.skydrop.jenvy.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -23,8 +23,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.jenvi_new.Fragments.Albums_Artists_Fragment;
-import com.example.jenvi_new.Fragments.SongsFragment;
+import com.skydrop.jenvy.Fragments.Albums_Artists_Fragment;
+import com.skydrop.jenvy.Fragments.SongsFragment;
 
 import com.google.android.material.tabs.TabLayout;
 import com.karumi.dexter.Dexter;
@@ -33,17 +33,17 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.example.jenvi_new.R;
-import com.example.jenvi_new.models.SongModel;
-import com.example.jenvi_new.singleton.SongsList_singleton;
-import com.example.jenvi_new.singleton.song_singleton;
+import com.skydrop.jenvy.R;
+import com.skydrop.jenvy.models.SongModel;
+import com.skydrop.jenvy.singleton.SongsList_singleton;
+import com.skydrop.jenvy.singleton.song_singleton;
 
 import java.util.ArrayList;
 
-import static com.example.jenvi_new.Applications.App.MAINACTIVITY_FLAG;
-import static com.example.jenvi_new.singleton.SongsList_singleton.ALBUM;
-import static com.example.jenvi_new.singleton.SongsList_singleton.ARTIST;
-import static com.example.jenvi_new.singleton.SongsList_singleton.SONGS;
+import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
+import static com.skydrop.jenvy.singleton.SongsList_singleton.ALBUM;
+import static com.skydrop.jenvy.singleton.SongsList_singleton.ARTIST;
+import static com.skydrop.jenvy.singleton.SongsList_singleton.SONGS;
 
 public class MainActivity extends AppCompatActivity {
     //region Final Variables

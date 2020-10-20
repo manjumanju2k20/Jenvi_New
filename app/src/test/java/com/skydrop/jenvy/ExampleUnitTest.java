@@ -1,4 +1,4 @@
-package com.example.jenvi_new;
+package com.skydrop.jenvy;
 
 import org.junit.Test;
 

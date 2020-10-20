@@ -1,4 +1,4 @@
-package com.example.jenvi_new.Fragments;
+package com.skydrop.jenvy.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,12 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.jenvi_new.Activities.Album_Artist;
-import com.example.jenvi_new.Adapters.AlbumsArtistsAdapter;
-import com.example.jenvi_new.Interfaces.AlbumArtistClickListner;
-import com.example.jenvi_new.R;
-import com.example.jenvi_new.singleton.SongsList_singleton;
-import com.example.jenvi_new.singleton.song_singleton;
+import com.skydrop.jenvy.Activities.Album_Artist;
+import com.skydrop.jenvy.Adapters.AlbumsArtistsAdapter;
+import com.skydrop.jenvy.Interfaces.AlbumArtistClickListner;
+import com.skydrop.jenvy.R;
+import com.skydrop.jenvy.singleton.SongsList_singleton;
+import com.skydrop.jenvy.singleton.song_singleton;
 
 
 public class Albums_Artists_Fragment extends Fragment {

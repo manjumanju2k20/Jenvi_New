@@ -1,4 +1,4 @@
-package com.example.jenvi_new.Interfaces;
+package com.skydrop.jenvy.Interfaces;
 
 
 public interface SongitemClickListener {

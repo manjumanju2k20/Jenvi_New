@@ -1,6 +1,6 @@
-package com.example.jenvi_new.singleton;
+package com.skydrop.jenvy.singleton;
 
-import com.example.jenvi_new.models.SongModel;
+import com.skydrop.jenvy.models.SongModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

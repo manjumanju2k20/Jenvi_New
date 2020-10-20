@@ -1,4 +1,4 @@
-package com.example.jenvi_new.Activities;
+package com.skydrop.jenvy.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,17 +7,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.jenvi_new.R;
-import com.example.jenvi_new.singleton.SongsList_singleton;
-import com.example.jenvi_new.singleton.song_singleton;
-
-import static com.example.jenvi_new.Applications.App.ALBUM_ARTIST_FLAG;
-import static com.example.jenvi_new.Applications.App.MAINACTIVITY_FLAG;
-import static com.example.jenvi_new.Applications.App.PlAYERACTIVITY_FLAG;
+import com.skydrop.jenvy.R;
+import com.skydrop.jenvy.singleton.song_singleton;
+import static com.skydrop.jenvy.Applications.App.ALBUM_ARTIST_FLAG;
+import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.PlAYERACTIVITY_FLAG;
 
 public class Playeractivity extends AppCompatActivity {
     private final song_singleton song = song_singleton.getInstance();
@@ -44,7 +40,7 @@ public class Playeractivity extends AppCompatActivity {
                 song.setIsshuffled(!song.Isshuffled());
                 seticons();
             }
-            else if(view==repeat){
+            else if(view == repeat){
                 song.setIsrepeating(!song.Isrepeating());
                 seticons();
             }
@@ -78,8 +74,7 @@ public class Playeractivity extends AppCompatActivity {
     private ImageButton next;
     private ImageButton shuffle;
     private ImageButton repeat;
-    private TextView songName;
-    private int intenetval;
+    private int intentval;
     //endregion
 
     @Override
@@ -88,7 +83,7 @@ public class Playeractivity extends AppCompatActivity {
         setContentView(R.layout.activity_playeractivity);
         song.setFlag(PlAYERACTIVITY_FLAG);
         try{
-            intenetval=getIntent().getIntExtra("extra",0);
+            intentval =getIntent().getIntExtra("extra",0);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -108,7 +103,6 @@ public class Playeractivity extends AppCompatActivity {
         //endregion
 
         seticons();
-
         song.showdata();
     }
 
@@ -116,16 +110,16 @@ public class Playeractivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(intenetval == 0) {
+        if(intentval == 0) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
-        else if(intenetval == 2){
+        else if(intentval == 2){
             song.setFlag(ALBUM_ARTIST_FLAG);
             song.showdata();
         }
-        else if(intenetval == 1){
+        else if(intentval == 1){
             song.setFlag(MAINACTIVITY_FLAG);
             song.showdata();
         }
@@ -138,15 +132,12 @@ public class Playeractivity extends AppCompatActivity {
         back = findViewById(R.id.back_player);
         shuffle = findViewById(R.id.shuffle_player);
         repeat = findViewById(R.id.repeat_player);
-
-        songName = findViewById(R.id.title_player);
+        TextView songName = findViewById(R.id.title_player);
         songName.setSelected(true);
         song.Player_album = findViewById(R.id.album_player);
         song.played_duration = findViewById(R.id.playduration);
         song.total_duration = findViewById(R.id.totalduration);
-
         song.seekBar = findViewById(R.id.seekBar);
-
         song.Player_Play = play;
         song.Player_SongName = songName;
         song.Player_albumart = findViewById(R.id.albumart_player);

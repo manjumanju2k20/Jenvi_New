@@ -1,4 +1,4 @@
-package com.example.jenvi_new.Activities;
+package com.skydrop.jenvy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,15 +12,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jenvi_new.Adapters.songsListAdapter;
-import com.example.jenvi_new.Interfaces.SongitemClickListener;
-import com.example.jenvi_new.R;
-import com.example.jenvi_new.singleton.SongsList_singleton;
-import com.example.jenvi_new.singleton.song_singleton;
+import com.skydrop.jenvy.Adapters.songsListAdapter;
+import com.skydrop.jenvy.Interfaces.SongitemClickListener;
+import com.skydrop.jenvy.R;
+import com.skydrop.jenvy.singleton.SongsList_singleton;
+import com.skydrop.jenvy.singleton.song_singleton;
 
-import static com.example.jenvi_new.Applications.App.ALBUM_ARTIST_FLAG;
-import static com.example.jenvi_new.Applications.App.MAINACTIVITY_FLAG;
-import static com.example.jenvi_new.singleton.SongsList_singleton.SONGS;
+import static com.skydrop.jenvy.Applications.App.ALBUM_ARTIST_FLAG;
+import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
 
 public class Album_Artist extends AppCompatActivity {
 

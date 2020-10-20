@@ -1,12 +1,11 @@
-package com.example.jenvi_new.Notifications;
+package com.skydrop.jenvy.Notifications;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.jenvi_new.singleton.song_singleton;
+import com.skydrop.jenvy.singleton.song_singleton;
 
 
 public class NotificationReceiver extends BroadcastReceiver {

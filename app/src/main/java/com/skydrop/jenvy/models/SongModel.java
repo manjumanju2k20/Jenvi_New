@@ -1,4 +1,4 @@
-package com.example.jenvi_new.models;
+package com.skydrop.jenvy.models;
 
 import android.graphics.Bitmap;
 

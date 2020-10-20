@@ -1,4 +1,4 @@
-package com.example.jenvi_new.singleton;
+package com.skydrop.jenvy.singleton;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -18,22 +18,22 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 
-import com.example.jenvi_new.Activities.Playeractivity;
-import com.example.jenvi_new.Notifications.NotificationReceiver;
-import com.example.jenvi_new.R;
-import com.example.jenvi_new.models.SongModel;
+import com.skydrop.jenvy.Activities.Playeractivity;
+import com.skydrop.jenvy.Notifications.NotificationReceiver;
+import com.skydrop.jenvy.R;
+import com.skydrop.jenvy.models.SongModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.jenvi_new.Applications.App.ALBUM_ARTIST_FLAG;
-import static com.example.jenvi_new.Applications.App.CHANNEL_1_ID;
-import static com.example.jenvi_new.Applications.App.MAINACTIVITY_FLAG;
-import static com.example.jenvi_new.Applications.App.PlAYERACTIVITY_FLAG;
-import static com.example.jenvi_new.Notifications.NotificationReceiver.ACTION_NAME;
-import static com.example.jenvi_new.Notifications.NotificationReceiver.NEXT_ACTION;
-import static com.example.jenvi_new.Notifications.NotificationReceiver.PLAY_ACTION;
+import static com.skydrop.jenvy.Applications.App.ALBUM_ARTIST_FLAG;
+import static com.skydrop.jenvy.Applications.App.CHANNEL_1_ID;
+import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.PlAYERACTIVITY_FLAG;
+import static com.skydrop.jenvy.Notifications.NotificationReceiver.ACTION_NAME;
+import static com.skydrop.jenvy.Notifications.NotificationReceiver.NEXT_ACTION;
+import static com.skydrop.jenvy.Notifications.NotificationReceiver.PLAY_ACTION;
 
 public class song_singleton extends AppCompatActivity {
 
