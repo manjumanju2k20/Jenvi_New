@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.skydrop.jenvy.R;
@@ -49,23 +48,6 @@ public class Playeractivity extends AppCompatActivity {
     };
 
     //endregion
-
-    private void seticons() {
-        if(song.Isshuffled()){
-            shuffle.setImageResource(R.drawable.ic_shuffle_on);
-        }
-        else{
-            shuffle.setImageResource(R.drawable.ic_shuffle_off);
-        }
-
-        if(song.Isrepeating()){
-            repeat.setImageResource(R.drawable.ic_repeat_on);
-        }
-        else {
-            repeat.setImageResource(R.drawable.ic_repeat_off);
-        }
-    }
-
 
     //region Private Variables
     private ImageButton back;
@@ -125,6 +107,12 @@ public class Playeractivity extends AppCompatActivity {
         }
     }
 
+    private void seticons() {
+        shuffle.setImageResource(song.Isshuffled()?R.drawable.ic_shuffle_on:R.drawable.ic_shuffle_off);
+        repeat.setImageResource(song.Isrepeating()?R.drawable.ic_repeat_on:R.drawable.ic_repeat_off);
+    }
+
+
     private void setMappings() {
         next = findViewById(R.id.next_player);
         prev = findViewById(R.id.prev_player);
@@ -132,15 +120,18 @@ public class Playeractivity extends AppCompatActivity {
         back = findViewById(R.id.back_player);
         shuffle = findViewById(R.id.shuffle_player);
         repeat = findViewById(R.id.repeat_player);
-        TextView songName = findViewById(R.id.title_player);
-        songName.setSelected(true);
+
         song.Player_album = findViewById(R.id.album_player);
+        song.Player_SongName = findViewById(R.id.title_player);
+        song.Player_albumart = findViewById(R.id.albumart_player);
+
+        song.seekBar = findViewById(R.id.seekBar);
         song.played_duration = findViewById(R.id.playduration);
         song.total_duration = findViewById(R.id.totalduration);
-        song.seekBar = findViewById(R.id.seekBar);
+
         song.Player_Play = play;
-        song.Player_SongName = songName;
-        song.Player_albumart = findViewById(R.id.albumart_player);
+
+        song.Player_SongName.setSelected(true);
     }
 }
 

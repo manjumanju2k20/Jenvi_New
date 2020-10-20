@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         setmappings();
 
         if (songdata.getsize(SONGS) == 0) {
-            runtimepersimissions();
+            runTimePermissions();
         }
         else {
             initViewPager();
@@ -100,10 +100,13 @@ public class MainActivity extends AppCompatActivity {
     private void initViewPager() {
         ViewPager viewPager = findViewById(R.id.viewPager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         viewPagerAdapter.addFragments(new Albums_Artists_Fragment(ALBUM),ALBUM);
         viewPagerAdapter.addFragments(new Albums_Artists_Fragment(ARTIST),ARTIST);
         viewPagerAdapter.addFragments(new SongsFragment(),SONGS);
+
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         private ArrayList<Fragment> fragments;
         private ArrayList<String> titles;
+
 
         public ViewPagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
@@ -161,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         song.showdata();
     }
 
-    private void runtimepersimissions() {
+    private void runTimePermissions() {
         Dexter.withContext(MainActivity.this).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
             @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
@@ -181,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).check();
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     private void getsongs(Context context) {
@@ -214,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
                 tempmodel.setPath(path);
                 tempmodel.setId(id);
 
-                System.out.println("main model datatitle:"+tempmodel.getTitle()+"\n album:"+tempmodel.getAlbum()+"\n duration:"+tempmodel.getDuration());
                 // TODO: Remove after album art
                 tempmodel.setAlbumart(BitmapFactory.decodeResource(getResources(), R.drawable.defaultalbumart));
                 songdata.setSongslist(tempmodel);

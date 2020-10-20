@@ -65,8 +65,6 @@ public class Album_Artist extends AppCompatActivity {
     };
 
     private TextView album_artist_title;
-    private TextView album_artist_bottom_title;
-    private ImageView album_artist_bottom_art;
     private ImageButton backbnt;
     private ImageButton shuffle;
     private ImageButton play_album;
@@ -116,14 +114,15 @@ public class Album_Artist extends AppCompatActivity {
         play = findViewById(R.id.play_album_artist);
         bottombar = findViewById(R.id.bottombar_album_artist);
         backbnt = findViewById(R.id.album_artist_back);
+
+        song.Album_Artist_Play = play;
+
         album_artist_title = findViewById(R.id.album_artist_title);
-        album_artist_bottom_title = findViewById(R.id.title_album_artist);
-        album_artist_bottom_art = findViewById(R.id.albumart_album_artist);
         shuffle = findViewById(R.id.album_artist_shuffle);
         play_album = findViewById(R.id.album_artist_play);
-        song.Album_Artist_Play = play;
-        song.Album_Artist_title = album_artist_bottom_title;
-        song.Album_Artist_albumart = album_artist_bottom_art;
+        song.Album_Artist_title = findViewById(R.id.title_album_artist);
+        song.Album_Artist_albumart = findViewById(R.id.albumart_album_artist);
+
         next.setOnClickListener(listener);
         prev.setOnClickListener(listener);
         play.setOnClickListener(listener);
@@ -133,6 +132,6 @@ public class Album_Artist extends AppCompatActivity {
         play_album.setOnClickListener(listener);
 
         album_artist_title.setSelected(true);
-        album_artist_bottom_title.setSelected(true);
+        song.Album_Artist_title.setSelected(true);
     }
 }

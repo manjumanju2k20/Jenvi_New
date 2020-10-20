@@ -10,13 +10,12 @@ import com.skydrop.jenvy.R;
 
 public class SplashScreen extends AppCompatActivity {
 
-    //TODO: CHGE TO 3000
-    private final int SPLASH_TIMEOUT = 5;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        //TODO: CHGE TO 3000
+        int SPLASH_TIMEOUT = 5;
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -24,6 +23,6 @@ public class SplashScreen extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-        },SPLASH_TIMEOUT);
+        }, SPLASH_TIMEOUT);
     }
 }
