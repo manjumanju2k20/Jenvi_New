@@ -16,6 +16,7 @@ import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
 import static com.skydrop.jenvy.Applications.App.PlAYERACTIVITY_FLAG;
 
 public class Playeractivity extends AppCompatActivity {
+    //region final var
     private final song_singleton song = song_singleton.getInstance();
 
     private final OnClickListener listener = new OnClickListener() {
@@ -47,7 +48,7 @@ public class Playeractivity extends AppCompatActivity {
         }
     };
 
-
+    //endregion
 
     private void seticons() {
         if(song.Isshuffled()){
@@ -64,7 +65,6 @@ public class Playeractivity extends AppCompatActivity {
             repeat.setImageResource(R.drawable.ic_repeat_off);
         }
     }
-    //endregion
 
 
     //region Private Variables

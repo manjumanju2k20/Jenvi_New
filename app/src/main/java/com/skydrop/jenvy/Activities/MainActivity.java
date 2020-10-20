@@ -84,13 +84,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         song.setFlag(MAINACTIVITY_FLAG);
 
+        setmappings();
 
         if (songdata.getsize(SONGS) == 0) {
             runtimepersimissions();
         }
+        else {
+            initViewPager();
+        }
 
-        setmappings();
-        initViewPager();
 
     }
     private void initViewPager() {
@@ -163,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 getsongs(MainActivity.this);
-
+                initViewPager();
             }
 
             @Override
@@ -211,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
                 tempmodel.setId(id);
 
                 System.out.println("main model datatitle:"+tempmodel.getTitle()+"\n album:"+tempmodel.getAlbum()+"\n duration:"+tempmodel.getDuration());
-                System.out.println("main cursor data title"+title+" artist+:"+artist);
                 // TODO: Remove after album art
                 tempmodel.setAlbumart(BitmapFactory.decodeResource(getResources(), R.drawable.defaultalbumart));
                 songdata.setSongslist(tempmodel);

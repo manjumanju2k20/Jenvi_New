@@ -75,13 +75,18 @@ public class SongsList_singleton {
 
 
     public int getsize(String item){
-        if(item.equals(ARTIST)){
-            return artistnames.size();
+        System.out.println("item:"+item+"size"+songslist.size());
+        try {
+            if (item.equals(ARTIST)) {
+                return artistnames.size();
+            } else if (item.equals(ALBUM)) {
+                return albumnames.size();
+            }
+            return songslist.size();
         }
-        else if(item.equals(ALBUM)){
-            return albumnames.size();
+        catch (Exception e){
+            return 0;
         }
-        return songslist.size();
     }
 
     public int getsize(String item,String itemname){

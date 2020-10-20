@@ -113,7 +113,6 @@ public class song_singleton extends AppCompatActivity {
     }
 
 
-    //TODO: Custom Notification
     public void shownotification(){
 
         Intent plyayintent = new Intent(app_context,NotificationReceiver.class);
@@ -174,20 +173,18 @@ public class song_singleton extends AppCompatActivity {
                 }
             }
 
-            // now try, you wont get that glitch  in song
 
             //region Unused Overrides
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
-
+            //endregion
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mediaPlayer.seekTo(position);
                 Player_Play.setImageResource(R.drawable.ic_pause);
                 playsong();
             }
-            //endregion
         });
 
         song_singleton.this.runOnUiThread(new Runnable() {
@@ -204,24 +201,25 @@ public class song_singleton extends AppCompatActivity {
     }
 
     public void next(Context context) {
-        if(isshuffled){
-            System.out.println("shufling ind"+shufflingindex+", size:"+shufflingarray.size());
-            if(shufflingindex>=shufflingarray.size()-1){
-                generaterandonarray(shufflingarray.size());
-                shufflingindex = -1;
-            }
-            ++shufflingindex;
-            position = getshufflingval(shufflingindex);
+        if(!isrepeating) {
+            if (isshuffled) {
+                if (shufflingindex >= shufflingarray.size() - 1) {
+                    generaterandonarray(shufflingarray.size());
+                    shufflingindex = -1;
+                }
+                ++shufflingindex;
+                position = getshufflingval(shufflingindex);
             /*
             positioon = getrndomint(size);
              */
-        }
-        else if(!isrepeating){
-            if (position >= singleton.getsize(item,itemname) - 1) {
-                position = -1;
+            } else {
+                if (position >= singleton.getsize(item, itemname) - 1) {
+                    position = -1;
+                }
+                ++position;
             }
-            ++position;
         }
+
         play(context,position, item,itemname);
     }
 
