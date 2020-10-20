@@ -6,13 +6,16 @@ import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.skydrop.jenvy.R;
 import com.skydrop.jenvy.singleton.song_singleton;
+
 import static com.skydrop.jenvy.Applications.App.ALBUM_ARTIST_FLAG;
-import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
-import static com.skydrop.jenvy.Applications.App.PlAYERACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.MAIN_ACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.PLAYER_ACTIVITY_FLAG;
 
 public class Playeractivity extends AppCompatActivity {
     //region final var
@@ -24,10 +27,10 @@ public class Playeractivity extends AppCompatActivity {
             if (view == play) {
                 if (song.getIsPlaying()) {
                     play.setImageResource(R.drawable.ic_play);
-                    song.pausesong();
+                    song.pauseSong();
                 } else {
                     play.setImageResource(R.drawable.ic_pause);
-                    song.playsong();
+                    song.playSong();
                 }
             } else if (view == back) {
                 onBackPressed();
@@ -35,13 +38,11 @@ public class Playeractivity extends AppCompatActivity {
                 song.next(getApplicationContext());
             } else if (view == prev) {
                 song.prev(getApplicationContext());
-            }
-            else if(view == shuffle){
-                song.setIsshuffled(!song.Isshuffled());
+            } else if (view == shuffle) {
+                song.setShuffled(!song.IsShuffled());
                 seticons();
-            }
-            else if(view == repeat){
-                song.setIsrepeating(!song.Isrepeating());
+            } else if (view == repeat) {
+                song.setRepeating(!song.IsRepeating());
                 seticons();
             }
         }
@@ -63,11 +64,10 @@ public class Playeractivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playeractivity);
-        song.setFlag(PlAYERACTIVITY_FLAG);
-        try{
-            intentval =getIntent().getIntExtra("extra",0);
-        }
-        catch (Exception e){
+        song.setFlag(PLAYER_ACTIVITY_FLAG);
+        try {
+            intentval = getIntent().getIntExtra("extra", 0);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         setMappings();
@@ -85,31 +85,29 @@ public class Playeractivity extends AppCompatActivity {
         //endregion
 
         seticons();
-        song.showdata();
+        song.showData();
     }
 
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(intentval == 0) {
+        if (intentval == 0) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
-        else if(intentval == 2){
+        } else if (intentval == 2) {
             song.setFlag(ALBUM_ARTIST_FLAG);
-            song.showdata();
-        }
-        else if(intentval == 1){
-            song.setFlag(MAINACTIVITY_FLAG);
-            song.showdata();
+            song.showData();
+        } else if (intentval == 1) {
+            song.setFlag(MAIN_ACTIVITY_FLAG);
+            song.showData();
         }
     }
 
     private void seticons() {
-        shuffle.setImageResource(song.Isshuffled()?R.drawable.ic_shuffle_on:R.drawable.ic_shuffle_off);
-        repeat.setImageResource(song.Isrepeating()?R.drawable.ic_repeat_on:R.drawable.ic_repeat_off);
+        shuffle.setImageResource(song.IsShuffled() ? R.drawable.ic_shuffle_on : R.drawable.ic_shuffle_off);
+        repeat.setImageResource(song.IsRepeating() ? R.drawable.ic_repeat_on : R.drawable.ic_repeat_off);
     }
 
 
@@ -123,7 +121,7 @@ public class Playeractivity extends AppCompatActivity {
 
         song.Player_album = findViewById(R.id.album_player);
         song.Player_SongName = findViewById(R.id.title_player);
-        song.Player_albumart = findViewById(R.id.albumart_player);
+        song.Player_album_art = findViewById(R.id.albumart_player);
 
         song.seekBar = findViewById(R.id.seekBar);
         song.played_duration = findViewById(R.id.playduration);

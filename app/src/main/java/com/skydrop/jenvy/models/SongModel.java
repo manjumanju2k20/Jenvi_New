@@ -6,10 +6,9 @@ public class SongModel {
     private String id;
     private String album;
     private String title;
-    private String duration;
     private String artist;
     private String path;
-    private Bitmap Albumart;
+    private Bitmap AlbumArt;
     private String FormattedDuration;
 
 
@@ -26,9 +25,6 @@ public class SongModel {
         return title;
     }
 
-    public String getDuration() {
-        return duration;
-    }
 
     public String getArtist() {
         return artist;
@@ -38,7 +34,9 @@ public class SongModel {
         return path;
     }
 
-    public Bitmap getAlbumart() { return Albumart; }
+    public Bitmap getAlbumArt() {
+        return AlbumArt;
+    }
 
     public String getFormattedDuration() {
         return FormattedDuration;
@@ -52,15 +50,16 @@ public class SongModel {
         this.id = id;
     }
 
-    public void setAlbum(String album) { this.album = album; }
+    public void setAlbum(String album) {
+        this.album = album;
+    }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
     public void setDuration(String duration) {
-        this.duration = duration;
-        this.FormattedDuration = formattedTime(Integer.parseInt(this.duration));
+        this.FormattedDuration = formattedTime(Integer.parseInt(duration));
     }
 
     public void setArtist(String artist) {
@@ -86,9 +85,9 @@ public class SongModel {
             return total2;
     }
 
-    // TODO: Remove after albumart
-    public void setAlbumart(Bitmap albumart) {
-        Albumart = albumart;
+    // TODO: Remove after albumArt
+    public void setAlbumArt(Bitmap albumArt) {
+        AlbumArt = albumArt;
     }
 }
 

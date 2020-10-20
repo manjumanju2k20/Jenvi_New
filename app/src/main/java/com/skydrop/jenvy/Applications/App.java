@@ -8,11 +8,10 @@ import android.os.Build;
 
 public class App extends Application {
     public static final String CHANNEL_1_ID = "channel1";
-    public static final int MAINACTIVITY_FLAG = 1;
-    public static final int PlAYERACTIVITY_FLAG = 0;
+    public static final int MAIN_ACTIVITY_FLAG = 1;
+    public static final int PLAYER_ACTIVITY_FLAG = 0;
     public static final int NOTIFICATION_FLAG = 2;
     public static final int ALBUM_ARTIST_FLAG = 3;
-
 
 
     @Override
@@ -25,7 +24,7 @@ public class App extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel1 = new NotificationChannel(
                     CHANNEL_1_ID,
-                    "Channel 1",
+                    "Music Playback",
                     NotificationManager.IMPORTANCE_LOW
             );
             channel1.setDescription("Music Notification");

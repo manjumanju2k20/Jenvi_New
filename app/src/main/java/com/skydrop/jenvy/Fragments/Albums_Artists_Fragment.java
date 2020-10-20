@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.skydrop.jenvy.Activities.Album_Artist;
 import com.skydrop.jenvy.Adapters.AlbumsArtistsAdapter;
-import com.skydrop.jenvy.Interfaces.AlbumArtistClickListner;
+import com.skydrop.jenvy.Interfaces.AlbumArtistClickListener;
 import com.skydrop.jenvy.R;
 import com.skydrop.jenvy.singleton.SongsList_singleton;
 import com.skydrop.jenvy.singleton.song_singleton;
@@ -21,24 +21,25 @@ import com.skydrop.jenvy.singleton.song_singleton;
 
 public class Albums_Artists_Fragment extends Fragment {
 
-    private final SongsList_singleton songslist = SongsList_singleton.getInstance();
+    private final SongsList_singleton songsList = SongsList_singleton.getInstance();
     private final song_singleton song = song_singleton.getInstance();
 
     private String item;
 
-    private final AlbumArtistClickListner Listner = new AlbumArtistClickListner() {
+    private final AlbumArtistClickListener Listener = new AlbumArtistClickListener() {
         @Override
         public void onClick(int type, String item, int pos) {
-            String itemname = songslist.getitemname(item,pos);
+            String itemName = songsList.getItemName(item,pos);
             if(type == 0){
-                Intent albumartist = new Intent(getContext(), Album_Artist.class);
-                albumartist.putExtra("item",item);
-                albumartist.putExtra("itemname",itemname);
-                startActivity(albumartist);
+                Intent albumArtist = new Intent(getContext(), Album_Artist.class);
+                albumArtist.putExtra("item",item);
+                albumArtist.putExtra("itemName",itemName);
+                startActivity(albumArtist);
             }
             else{
-                song.play(getContext(),0,item,itemname);
-                song.setIsshuffled(false);
+                song.play(getContext(),0,item,itemName);
+                song.setShuffled(false);
+                song.setRepeating(false);
             }
         }
     };
@@ -50,10 +51,9 @@ public class Albums_Artists_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_albums_artists, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recview_album);
-        AlbumsArtistsAdapter albumsArtistsAdapter = new AlbumsArtistsAdapter(getContext(),item,Listner);
+        AlbumsArtistsAdapter albumsArtistsAdapter = new AlbumsArtistsAdapter(getContext(),item, Listener);
         recyclerView.setAdapter(albumsArtistsAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         return view;

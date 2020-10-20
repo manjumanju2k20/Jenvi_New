@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.skydrop.jenvy.Adapters.songsListAdapter;
-import com.skydrop.jenvy.Interfaces.SongitemClickListener;
+import com.skydrop.jenvy.Interfaces.SongItemClickListener;
 import com.skydrop.jenvy.R;
 import com.skydrop.jenvy.singleton.song_singleton;
 
@@ -21,24 +21,25 @@ import static com.skydrop.jenvy.singleton.SongsList_singleton.SONGS;
 public class SongsFragment extends Fragment {
 
     private final song_singleton song = song_singleton.getInstance();
-    private final SongitemClickListener Listener = new SongitemClickListener() {
+    private final SongItemClickListener Listener = new SongItemClickListener() {
         @Override
-        public void onClick(int pos,String item, String itemname) {
-            song.play(getContext(), pos,item,itemname);
-            song.setIsshuffled(false);
+        public void onClick(int pos, String item, String itemName) {
+            song.play(getContext(), pos, item, itemName);
+            song.setShuffled(false);
+            song.setRepeating(false);
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
+
         //region Rec View
-        RecyclerView recview = view.findViewById(R.id.recview);
-        songsListAdapter adapter = new songsListAdapter(getContext(), Listener,SONGS,null);
-        recview.setLayoutManager(new LinearLayoutManager(getContext()));
-        recview.setAdapter(adapter);
+        RecyclerView recView = view.findViewById(R.id.recview);
+        songsListAdapter adapter = new songsListAdapter(getContext(), Listener, SONGS, null);
+        recView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recView.setAdapter(adapter);
         //endregion
 
         return view;

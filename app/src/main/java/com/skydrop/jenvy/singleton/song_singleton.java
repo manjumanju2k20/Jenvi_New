@@ -29,8 +29,8 @@ import java.util.List;
 
 import static com.skydrop.jenvy.Applications.App.ALBUM_ARTIST_FLAG;
 import static com.skydrop.jenvy.Applications.App.CHANNEL_1_ID;
-import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
-import static com.skydrop.jenvy.Applications.App.PlAYERACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.MAIN_ACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.PLAYER_ACTIVITY_FLAG;
 import static com.skydrop.jenvy.Notifications.NotificationReceiver.ACTION_NAME;
 import static com.skydrop.jenvy.Notifications.NotificationReceiver.NEXT_ACTION;
 import static com.skydrop.jenvy.Notifications.NotificationReceiver.PLAY_ACTION;
@@ -39,67 +39,61 @@ public class song_singleton extends AppCompatActivity {
 
     //region Final Variables
     private final SongsList_singleton singleton = SongsList_singleton.getInstance();
+    @SuppressLint("StaticFieldLeak")
+    private static final song_singleton instance = new song_singleton();
     //endregion
 
     //region Private Variables
     private MediaPlayer mediaPlayer;
     private int flag;
+    private int position;
     private SongModel model;
     private Context app_context;
     private String item;
-    private String itemname;
-    private boolean isshuffled;
-    private List<Integer> shufflingarray = new ArrayList<>();
-    private int shufflingindex;
+    private String itemName;
+    private boolean isShuffled;
+    private boolean isRepeating;
+    private int shufflingIndex;
+    private List<Integer> shufflingArray = new ArrayList<>();
     //endregion
 
     //region Public Variables
-    public int position;
     public TextView Player_SongName;
     public ImageButton Player_Play;
     public TextView Player_album;
-    public ImageView Player_albumart;
-    public ImageButton Player_shuffle;
-    public ImageButton Player_repeat;
+    public ImageView Player_album_art;
     public TextView played_duration;
     public TextView total_duration;
     public SeekBar seekBar;
     public Handler handler;
 
     public TextView Main_SongName;
-    public ImageView Main_albumart;
+    public ImageView Main_album_art;
     public ImageButton Main_Play;
 
     public ImageButton Album_Artist_Play;
     public TextView Album_Artist_title;
-    public ImageView Album_Artist_albumart;
+    public ImageView Album_Artist_album_art;
     //endregion
 
-    //region Static Variables
-    @SuppressLint("StaticFieldLeak")
-    private static final song_singleton instance = new song_singleton();
-    private boolean isrepeating;
-    //endregion
 
-    public void play(final Context context, int position, String item, String itemname) {
+    public void play(final Context context, int position, String item, String itemName) {
         this.position = position;
         this.app_context = context;
         this.item = item;
-        this.itemname= itemname;
-        model = singleton.getitemmodel(item,itemname,position);
+        this.itemName = itemName;
+        model = singleton.getItemModel(item, itemName, position);
 
         //region New Song Creating
         if (mediaPlayer != null) {
-            //mediaPlayer.stop();
             mediaPlayer.release();
         }
 
         mediaPlayer = MediaPlayer.create(app_context, Uri.parse(model.getPath()));
 
-        try{
-            playsong();
-        }
-        catch (Exception e){
+        try {
+            playSong();
+        } catch (Exception e) {
             next(context);
         }
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -113,41 +107,39 @@ public class song_singleton extends AppCompatActivity {
     }
 
 
-    public void shownotification(){
+    public void showNotification() {
 
-        Intent plyayintent = new Intent(app_context,NotificationReceiver.class);
-        plyayintent.putExtra(ACTION_NAME,PLAY_ACTION);
+        Intent playIntent = new Intent(app_context, NotificationReceiver.class);
+        playIntent.putExtra(ACTION_NAME, PLAY_ACTION);
 
-        Intent openactivity = new Intent(app_context, Playeractivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(app_context, 0, openactivity, 0);
+        Intent openActivity = new Intent(app_context, Playeractivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(app_context, 0, openActivity, 0);
 
-        /*Intent previntent = new Intent(app_context,NotificationReceiver.class);
-        previntent.putExtra(ACTION_NAME,PREV_ACTION);
-        PendingIntent prevaction = PendingIntent.getBroadcast(app_context,0,previntent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        PendingIntent playaction = PendingIntent.getBroadcast(app_context,0,plyayintent,PendingIntent.FLAG_UPDATE_CURRENT);
+        /*Intent prevIntent = new Intent(app_context,NotificationReceiver.class);
+        prevIntent.putExtra(ACTION_NAME,PREV_ACTION);
+        PendingIntent prevAction = PendingIntent.getBroadcast(app_context,0,prevIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        PendingIntent nextaction = PendingIntent.getBroadcast(app_context,0,nextintent,PendingIntent.FLAG_UPDATE_CURRENT);*/
+        PendingIntent playAction = PendingIntent.getBroadcast(app_context,0,playIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-
-        Intent nextintent = new Intent(app_context, NotificationReceiver.class);
-        nextintent.putExtra(ACTION_NAME,NEXT_ACTION);
+        PendingIntent nextAction = PendingIntent.getBroadcast(app_context,0,nextIntent,PendingIntent.FLAG_UPDATE_CURRENT);*/
 
 
+        Intent nextIntent = new Intent(app_context, NotificationReceiver.class);
+        nextIntent.putExtra(ACTION_NAME, NEXT_ACTION);
 
-        int resourse = mediaPlayer.isPlaying()?R.drawable.ic_pause: R.drawable.ic_play;
+
+        int resource = mediaPlayer.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play;
 
         Notification notification = new NotificationCompat.Builder(app_context, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_music)
                 .setContentTitle(model.getTitle())
                 .setContentText(model.getAlbum())
-                .setLargeIcon(model.getAlbumart())
-//                .addAction(R.drawable.ic_previous, "Previous", PendingIntent.getBroadcast(app_context,0,previntent,PendingIntent.FLAG_UPDATE_CURRENT))
-//                .addAction(R.drawable.ic_next, "Next", PendingIntent.getBroadcast(app_context,0,nextintent,PendingIntent.FLAG_UPDATE_CURRENT))
-                .addAction(resourse, "Pause", PendingIntent.getBroadcast(app_context,0,plyayintent,PendingIntent.FLAG_UPDATE_CURRENT))
+                .setLargeIcon(model.getAlbumArt())
+//                .addAction(R.drawable.ic_previous, "Previous", PendingIntent.getBroadcast(app_context,0,prevIntent,PendingIntent.FLAG_UPDATE_CURRENT))
+//                .addAction(R.drawable.ic_next, "Next", PendingIntent.getBroadcast(app_context,0,nextIntent,PendingIntent.FLAG_UPDATE_CURRENT))
+                .addAction(resource, "Pause", PendingIntent.getBroadcast(app_context, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle())
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setContentIntent(pendingIntent)
@@ -160,31 +152,31 @@ public class song_singleton extends AppCompatActivity {
 
     public void seek_Bar() {
         int duration = mediaPlayer.getDuration();
-        System.out.print("duration"+duration);
         total_duration.setText(formattedTime(duration));
         seekBar.setMax(duration);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            private int position;//em chesthunav??
+            private int position;
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if (mediaPlayer != null && b) {
-                    position=i;
+                    position = i;
                 }
             }
 
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.seekTo(position);
+                Player_Play.setImageResource(R.drawable.ic_pause);
+                playSong();
+            }
 
             //region Unused Overrides
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
             //endregion
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(position);
-                Player_Play.setImageResource(R.drawable.ic_pause);
-                playsong();
-            }
         });
 
         song_singleton.this.runOnUiThread(new Runnable() {
@@ -201,84 +193,94 @@ public class song_singleton extends AppCompatActivity {
     }
 
     public void next(Context context) {
-        if(!isrepeating) {
-            if (isshuffled) {
-                if (shufflingindex >= shufflingarray.size() - 1) {
-                    generaterandonarray(shufflingarray.size());
-                    shufflingindex = -1;
+        if (!isRepeating) {
+            if (isShuffled) {
+                if (shufflingIndex >= shufflingArray.size() - 1) {
+                    generateRandomArray(shufflingArray.size());
+                    shufflingIndex = -1;
                 }
-                ++shufflingindex;
-                position = getshufflingval(shufflingindex);
-            /*
-            positioon = getrndomint(size);
-             */
+                ++shufflingIndex;
+                position = getShufflingVal(shufflingIndex);
             } else {
-                if (position >= singleton.getsize(item, itemname) - 1) {
+                if (position >= singleton.getSize(item, itemName) - 1) {
                     position = -1;
                 }
                 ++position;
             }
         }
-
-        play(context,position, item,itemname);
+        play(context, position, item, itemName);
     }
 
     public void prev(Context context) {
-        if (position <= 0) {
-            position = singleton.getsize(item,itemname);
+        if (isShuffled) {
+            if (shufflingIndex <= 0) {
+                shufflingIndex = shufflingArray.size() - 1;
+                generateRandomArray(shufflingArray.size());
+            } else {
+                --shufflingIndex;
+                position = getShufflingVal(shufflingIndex);
+            }
+        } else {
+            if (position <= 0) {
+                position = singleton.getSize(item, itemName);
+            }
+            --position;
         }
-        play(context,--position, item,itemname);
+        play(context, position, item, itemName);
     }
 
-    public void playsong(){
+    public void playSong() {
         mediaPlayer.start();
-        shownotification();
-        showdata();
+        showNotification();
+        showData();
     }
 
-    public void pausesong(){
+    public void pauseSong() {
         mediaPlayer.pause();
-        shownotification();
-        showdata();
+        showNotification();
+        showData();
     }
 
-    public void shufflesong(Context context,String item, String itemname){
-        shufflingindex = 0;
-        this.itemname = itemname;
+    //region shuffling
+    public void shuffleSong(Context context, String item, String itemName) {
+        shufflingIndex = 0;
+        this.itemName = itemName;
         this.item = item;
-        setIsshuffled(true);
-        play(context,getshufflingval(shufflingindex),item,itemname);
+        setShuffled(true);
+        setRepeating(false);
+        play(context, getShufflingVal(shufflingIndex), item, itemName);
     }
 
 
-    private void generaterandonarray(int size) {
-        shufflingarray.clear();
-        for(int i=0;i<size;i++){
-            shufflingarray.add(i);
+    private void generateRandomArray(int size) {
+        shufflingArray.clear();
+        for (int i = 0; i < size; i++) {
+            shufflingArray.add(i);
         }
-        Collections.shuffle(shufflingarray);
+        Collections.shuffle(shufflingArray);
     }
 
-    private int getshufflingval(int shufflingindex) {
-        return shufflingarray.get(shufflingindex);
+    private int getShufflingVal(int shufflingIndex) {
+        return shufflingArray.get(shufflingIndex);
     }
+    //endregion
 
-    public void showdata(){
-        if(model!=null) {
-            if (flag == PlAYERACTIVITY_FLAG) {
+    public void showData() {
+        if (model != null) {
+            if (flag == PLAYER_ACTIVITY_FLAG) {
                 Player_SongName.setText(model.getTitle());
-                Player_Play.setImageResource(!mediaPlayer.isPlaying()?R.drawable.ic_play:R.drawable.ic_pause);
-                Player_albumart.setImageBitmap(model.getAlbumart());
+                Player_Play.setImageResource(!mediaPlayer.isPlaying() ? R.drawable.ic_play : R.drawable.ic_pause);
+                Player_album_art.setImageBitmap(model.getAlbumArt());
                 Player_album.setText(model.getAlbum());
                 seek_Bar();
-            } else if (flag == MAINACTIVITY_FLAG) {
+            } else if (flag == MAIN_ACTIVITY_FLAG) {
                 Main_SongName.setText(model.getTitle());
-                Main_albumart.setImageBitmap(model.getAlbumart());
-                Main_Play.setImageResource(!mediaPlayer.isPlaying()?R.drawable.ic_play:R.drawable.ic_pause);
-            } else if(flag == ALBUM_ARTIST_FLAG) {
-                Album_Artist_albumart.setImageBitmap(model.getAlbumart());
+                Main_album_art.setImageBitmap(model.getAlbumArt());
+                Main_Play.setImageResource(!mediaPlayer.isPlaying() ? R.drawable.ic_play : R.drawable.ic_pause);
+            } else if (flag == ALBUM_ARTIST_FLAG) {
+                Album_Artist_album_art.setImageBitmap(model.getAlbumArt());
                 Album_Artist_title.setText(model.getTitle());
-                Album_Artist_Play.setImageResource(!mediaPlayer.isPlaying()?R.drawable.ic_play:R.drawable.ic_pause);
+                Album_Artist_Play.setImageResource(!mediaPlayer.isPlaying() ? R.drawable.ic_play : R.drawable.ic_pause);
             }
         }
     }
@@ -301,36 +303,37 @@ public class song_singleton extends AppCompatActivity {
     public static song_singleton getInstance() {
         return instance;
     }
+
     public void setFlag(int flag) {
         this.flag = flag;
     }
-    public boolean getIsPlaying(){return mediaPlayer.isPlaying();}
 
-
-
-    public boolean Isshuffled() {
-        return isshuffled;
+    public boolean getIsPlaying() {
+        return mediaPlayer.isPlaying();
     }
 
-    public void setIsshuffled(boolean isshuffled) {
-        this.isshuffled = isshuffled;
-        if(isshuffled) {
-            generaterandonarray(singleton.getsize(item, itemname));
+    public boolean IsShuffled() {
+        return isShuffled;
+    }
+
+    public void setShuffled(boolean shuffled) {
+        this.isShuffled = shuffled;
+        if (shuffled) {
+            generateRandomArray(singleton.getSize(item, itemName));
         }
     }
 
-    public boolean Isrepeating() {
-        return isrepeating;
+    public boolean IsRepeating() {
+        return isRepeating;
     }
 
-    public void setIsrepeating(boolean isrepeating) {
-        this.isrepeating = isrepeating;
+    public void setRepeating(boolean repeating) {
+        this.isRepeating = repeating;
     }
 
-    public boolean ismediaplayer() {
+    public boolean isMediaPlayer() {
         return mediaPlayer != null;
     }
 
     //endregion
 }
-

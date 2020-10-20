@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,7 +41,8 @@ import com.skydrop.jenvy.singleton.song_singleton;
 
 import java.util.ArrayList;
 
-import static com.skydrop.jenvy.Applications.App.MAINACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.MAIN_ACTIVITY_FLAG;
+import static com.skydrop.jenvy.Applications.App.NOTIFICATION_FLAG;
 import static com.skydrop.jenvy.singleton.SongsList_singleton.ALBUM;
 import static com.skydrop.jenvy.singleton.SongsList_singleton.ARTIST;
 import static com.skydrop.jenvy.singleton.SongsList_singleton.SONGS;
@@ -52,23 +54,25 @@ public class MainActivity extends AppCompatActivity {
     private final View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (v == next) {
-                song.next(getApplicationContext());
-            } else if (v == prev) {
-                song.prev(getApplicationContext());
-            } else if (v == play) {
-                if (song.getIsPlaying()) {
-                    play.setImageResource(R.drawable.ic_play);
-                    song.pausesong();
-                } else {
-                    play.setImageResource(R.drawable.ic_pause);
-                    song.playsong();
-                }
-            } else if (v == bottombar) {
-                if(song.ismediaplayer()) {
+            if (song.isMediaPlayer()) {
+                if (v == next) {
+                    song.next(getApplicationContext());
+                } else if (v == prev) {
+                    song.prev(getApplicationContext());
+                } else if (v == play) {
+                    if (song.getIsPlaying()) {
+                        play.setImageResource(R.drawable.ic_play);
+                        song.pauseSong();
+                    } else {
+                        play.setImageResource(R.drawable.ic_pause);
+                        song.playSong();
+                    }
+                } else if (v == bottombar) {
+
                     Intent playeractivity = new Intent(getApplicationContext(), Playeractivity.class);
                     playeractivity.putExtra("extra", 1);
                     startActivity(playeractivity);
+
                 }
             }
         }
@@ -80,49 +84,52 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton play;
     private ConstraintLayout bottombar;
 
+    private static long back_pressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        song.setFlag(MAINACTIVITY_FLAG);
+        song.setFlag(MAIN_ACTIVITY_FLAG);
 
         setmappings();
 
-        if (songdata.getsize(SONGS) == 0) {
+        if (songdata.getSize(SONGS) == 0) {
             runTimePermissions();
-        }
-        else {
+        } else {
             initViewPager();
         }
 
 
     }
+
     private void initViewPager() {
         ViewPager viewPager = findViewById(R.id.viewPager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.addFragments(new Albums_Artists_Fragment(ALBUM),ALBUM);
-        viewPagerAdapter.addFragments(new Albums_Artists_Fragment(ARTIST),ARTIST);
-        viewPagerAdapter.addFragments(new SongsFragment(),SONGS);
+        viewPagerAdapter.addFragments(new Albums_Artists_Fragment(ALBUM), ALBUM);
+        viewPagerAdapter.addFragments(new Albums_Artists_Fragment(ARTIST), ARTIST);
+        viewPagerAdapter.addFragments(new SongsFragment(), SONGS);
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
-    public static class ViewPagerAdapter extends FragmentPagerAdapter{
+
+    public static class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private ArrayList<Fragment> fragments;
         private ArrayList<String> titles;
 
-
+        @SuppressWarnings("deprecation")
         public ViewPagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
             this.fragments = new ArrayList<>();
             this.titles = new ArrayList<>();
         }
 
-        void addFragments(Fragment fragment, String title){
+        void addFragments(Fragment fragment, String title) {
             fragments.add(fragment);
             titles.add(title);
         }
@@ -154,15 +161,15 @@ public class MainActivity extends AppCompatActivity {
         bottombar = findViewById(R.id.bottombar_main);
 
         song.Main_Play = play;
-        song.Main_SongName =  findViewById(R.id.title_main);
-        song.Main_albumart =  findViewById(R.id.albumart_main);
+        song.Main_SongName = findViewById(R.id.title_main);
+        song.Main_album_art = findViewById(R.id.albumart_main);
         song.Main_SongName.setSelected(true);
         next.setOnClickListener(listener);
         prev.setOnClickListener(listener);
         play.setOnClickListener(listener);
         bottombar.setOnClickListener(listener);
 
-        song.showdata();
+        song.showData();
     }
 
     private void runTimePermissions() {
@@ -186,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         }).check();
     }
 
-
+    //TODO: make available to every android
     @RequiresApi(api = Build.VERSION_CODES.R)
     private void getsongs(Context context) {
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -220,10 +227,23 @@ public class MainActivity extends AppCompatActivity {
                 tempmodel.setId(id);
 
                 // TODO: Remove after album art
-                tempmodel.setAlbumart(BitmapFactory.decodeResource(getResources(), R.drawable.defaultalbumart));
-                songdata.setSongslist(tempmodel);
+                tempmodel.setAlbumArt(BitmapFactory.decodeResource(getResources(), R.drawable.defaultalbumart));
+                songdata.setSongsList(tempmodel);
             }
         }
-        songdata.setlist();
+        songdata.setList();
+    }
+
+    @Override
+    public void onBackPressed() {
+        long TIME_DELAY = 2000;
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+            super.onBackPressed();
+            song.setFlag(NOTIFICATION_FLAG);
+        } else {
+            String toastMsg = "Tap again to exit";
+            Toast.makeText(getBaseContext(), toastMsg, Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 }

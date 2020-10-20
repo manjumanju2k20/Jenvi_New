@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.skydrop.jenvy.Interfaces.SongitemClickListener;
+import com.skydrop.jenvy.Interfaces.SongItemClickListener;
 import com.skydrop.jenvy.R;
 import com.skydrop.jenvy.models.SongModel;
 import com.skydrop.jenvy.singleton.SongsList_singleton;
@@ -20,15 +20,15 @@ import com.skydrop.jenvy.singleton.SongsList_singleton;
 public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.MyViewHolder> {
     private final SongsList_singleton singleton = SongsList_singleton.getInstance();
     private final Context context;
-    private final SongitemClickListener Listener;
+    private final SongItemClickListener Listener;
     private String item;
-    private String itemname;
+    private String itemName;
 
-    public songsListAdapter(Context context, SongitemClickListener listener, String item, String itemname) {
+    public songsListAdapter(Context context, SongItemClickListener listener, String item, String itemName) {
         this.context = context;
-        Listener = listener;
+        this.Listener = listener;
         this.item = item;
-        this.itemname = itemname;
+        this.itemName = itemName;
     }
 
     @NonNull
@@ -39,16 +39,16 @@ public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        SongModel model = singleton.getitemmodel(item,itemname,position);
+        SongModel model = singleton.getItemModel(item, itemName, position);
         holder.songName.setText(model.getTitle());
         holder.albumName.setText(model.getAlbum());
         holder.songTime.setText(model.getFormattedDuration());
-        holder.imageView.setImageBitmap(model.getAlbumart());
+        holder.imageView.setImageBitmap(model.getAlbumArt());
     }
 
     @Override
     public int getItemCount() {
-        return singleton.getsize(item,itemname);
+        return singleton.getSize(item, itemName);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -65,7 +65,6 @@ public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.MyVi
             imageView = itemView.findViewById(R.id.albumart_songs_rec);
             albumName = itemView.findViewById(R.id.album_songs_rec);
             options = itemView.findViewById(R.id.options_songs_rec);
-//            songName.setSelected(true);
             options.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
@@ -73,7 +72,7 @@ public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.MyVi
         @Override
         public void onClick(View view) {
 
-            Listener.onClick(getAdapterPosition(),item,itemname);
+            Listener.onClick(getAdapterPosition(), item, itemName);
         }
     }
 }

@@ -12,91 +12,82 @@ public class SongsList_singleton {
     public final static String SONGS = "Songs";
     public final static String ARTIST = "Artist";
 
-    private ArrayList<SongModel> songslist;
+    private ArrayList<SongModel> songsList;
     private HashMap<String, List<Integer>> albums;
     private HashMap<String, List<Integer>> artists;
 
-    private List<String> albumnames;
-    private List<String> artistnames;
+    private List<String> albumNames;
+    private List<String> artistNames;
 
     private static SongsList_singleton Instance = new SongsList_singleton();
 
-    public static SongsList_singleton getInstance(){
+    public static SongsList_singleton getInstance() {
         return Instance;
     }
 
     private SongsList_singleton() {
-        songslist = new ArrayList<>();
+        songsList = new ArrayList<>();
         albums = new HashMap<>();
         artists = new HashMap<>();
     }
 
 
+    public void setSongsList(SongModel songItem) {
+        songsList.add(songItem);
 
-    public void setSongslist(SongModel songitem) {
-        songslist.add(songitem);
-
-        if(!albums.containsKey(songitem.getAlbum())){
-            albums.put(songitem.getAlbum(),new ArrayList<Integer>());
+        if (!albums.containsKey(songItem.getAlbum())) {
+            albums.put(songItem.getAlbum(), new ArrayList<Integer>());
         }
-        Objects.requireNonNull(albums.get(songitem.getAlbum())).add(songslist.size()-1);
+        Objects.requireNonNull(albums.get(songItem.getAlbum())).add(songsList.size() - 1);
 
-        if(!artists.containsKey(songitem.getArtist())){
-            artists.put(songitem.getArtist(),new ArrayList<Integer>());
+        if (!artists.containsKey(songItem.getArtist())) {
+            artists.put(songItem.getArtist(), new ArrayList<Integer>());
         }
-        Objects.requireNonNull(artists.get(songitem.getArtist())).add(songslist.size()-1);
+        Objects.requireNonNull(artists.get(songItem.getArtist())).add(songsList.size() - 1);
     }
 
-    public void setlist(){
-        artistnames = new ArrayList<>(artists.keySet());
-        albumnames = new ArrayList<>(albums.keySet());
+    public void setList() {
+        artistNames = new ArrayList<>(artists.keySet());
+        albumNames = new ArrayList<>(albums.keySet());
     }
 
 
-    public String getitemname(String item, int pos){
-        if(item.equals(ARTIST)){
-            return artistnames.get(pos);
-        }
-        else if(item.equals(ALBUM)){
-            return albumnames.get(pos);
+    public String getItemName(String item, int pos) {
+        if (item.equals(ARTIST)) {
+            return artistNames.get(pos);
+        } else if (item.equals(ALBUM)) {
+            return albumNames.get(pos);
         }
         return null;
     }
 
-    public SongModel getitemmodel(String item, String itemname,int pos){
-        if(item.equals(ARTIST)){
-            return songslist.get(Objects.requireNonNull(artists.get(itemname)).get(pos));
+    public SongModel getItemModel(String item, String itemName, int pos) {
+        if (item.equals(ARTIST)) {
+            return songsList.get(Objects.requireNonNull(artists.get(itemName)).get(pos));
         }
-        if(item.equals(ALBUM)){
-            return songslist.get(Objects.requireNonNull(albums.get(itemname)).get(pos));
+        if (item.equals(ALBUM)) {
+            return songsList.get(Objects.requireNonNull(albums.get(itemName)).get(pos));
         }
-        return songslist.get(pos);
+        return songsList.get(pos);
     }
 
 
-    public int getsize(String item){
-        System.out.println("item:"+item+"size"+songslist.size());
-        try {
-            if (item.equals(ARTIST)) {
-                return artistnames.size();
-            } else if (item.equals(ALBUM)) {
-                return albumnames.size();
-            }
-            return songslist.size();
+    public int getSize(String item) {
+        if (item.equals(ARTIST)) {
+            return artistNames.size();
+        } else if (item.equals(ALBUM)) {
+            return albumNames.size();
         }
-        catch (Exception e){
-            return 0;
-        }
+        return songsList.size();
     }
 
-    public int getsize(String item,String itemname){
-        if(item.equals(ARTIST)){
-            return Objects.requireNonNull(artists.get(itemname)).size();
+    public int getSize(String item, String itemName) {
+        if (item.equals(ARTIST)) {
+            return Objects.requireNonNull(artists.get(itemName)).size();
         }
-        if(item.equals(ALBUM)){
-            return Objects.requireNonNull(albums.get(itemname)).size();
+        if (item.equals(ALBUM)) {
+            return Objects.requireNonNull(albums.get(itemName)).size();
         }
-        return songslist.size();
+        return songsList.size();
     }
 }
-
